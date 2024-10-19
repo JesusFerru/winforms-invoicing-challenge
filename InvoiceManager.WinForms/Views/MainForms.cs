@@ -49,18 +49,30 @@ namespace InvoiceManager.WinForms
             }
         }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            //if (e.RowIndex >= 0) // no sea el header
-            //{
-            //    selectedCUF = dataGridView1.Rows[e.RowIndex].Cells["CUF"].Value.ToString();
-         
-            //    MessageBox.Show($"CUF seleccionado: {selectedCUF}");
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {    
+            if (dataGridView1.Rows.Count == 0 || e.RowIndex < 0)
+            {
+                MessageBox.Show("No seleccionó ninguna factura correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            //    // Abre el formulario para descargar la factura
-            //    DownloadInvoiceForm downloadForm = new DownloadInvoiceForm(selectedCUF); // Pasa el CUF al formulario
-            //    downloadForm.Show();
-            //}
+            // Verifica que la columna "CUF" no sea nula
+            if (dataGridView1.Rows[e.RowIndex].Cells["CUF"].Value != null)
+            {
+                // Obtener el CUF de la fila seleccionada
+                selectedCUF = dataGridView1.Rows[e.RowIndex].Cells["CUF"].Value.ToString();
+
+                MessageBox.Show($"CUF seleccionado: {selectedCUF}");
+
+                // Abre el formulario para descargar la factura
+                DownloadInvoiceForm downloadForm = new DownloadInvoiceForm(selectedCUF); // Pasa el CUF al formulario
+                downloadForm.Show();
+            }
+            else
+            {
+                MessageBox.Show("No seleccionó ninguna factura correctamente.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
         private void copiarToolStripMenuItem_Click(object sender, EventArgs e)

@@ -32,5 +32,17 @@ namespace InvoiceManager.WinForms.Services
 
             return response.IsSuccessStatusCode;
         }
+
+        public async Task<Invoice> GetInvoiceByCUFAsync(string cuf)
+        {
+            var response = await client.GetAsync($"/api/invoices/{cuf}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                return JsonConvert.DeserializeObject<Invoice>(json);
+            }
+            return null;
+        }
     }
 }
