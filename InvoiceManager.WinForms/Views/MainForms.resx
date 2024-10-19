@@ -132,22 +132,7 @@
   <metadata name="totalAmount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
-  <metadata name="createdAt.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="NroFactura.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="CUF.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="nit.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="customerName.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
-    <value>True</value>
-  </metadata>
-  <metadata name="totalAmount.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
+  <metadata name="Status.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
     <value>True</value>
   </metadata>
   <metadata name="createdAt.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">
@@ -157,7 +142,7 @@
   <data name="companyLogo.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
         iVBORw0KGgoAAAANSUhEUgAAAXMAAAEmCAYAAACQ+XDWAAAABGdBTUEAALGPC/xhBQAAAAlwSFlzAAAO
-        wgAADsIBFShKgAAA/7JJREFUeF7svXecJVXV7o8MM9PTOceZ6emePAw5CwKKBEEQBEWCIKIIIqiYcw6I
+        vAAADrwBlbxySQAA/7JJREFUeF7svXecJVXV7o8MM9PTOceZ6emePAw5CwKKBEEQBEWCIKIIIqiYcw6I
         WVTAgGL2NQuIZJjc0znnnHsiwfTe+1u/51m7dtWuOnU6DD3ovff94/lUnao6Ffbe67vXzofUN7fJNde/
         QxZlFkvestWSC+WVr4HWqfJXrPeVu2Kt5KxYEyvznzWS6yln+WpfuZCex/+tCirWSEEltVYKV67zVbRq
         vap4NbXOV8mqDVKK4yUr10rxyjXYx3FsrYoqV/sqrFilKsK9iypxHZ4TpxKco4qj4nvo++DdcI98XJvP
