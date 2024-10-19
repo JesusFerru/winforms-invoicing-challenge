@@ -33,17 +33,53 @@ Para ejecutar el proyecto correctamente, es importante asegurarse de que el ento
 
 ---
 
-## Instrucciones de Instalación y Ejecución
+## Opciones de Instalación y Ejecución
 
-### 1. Clonar el repositorio
+
+
+
+### OPCION A : Ejecutar el Proyecto Completo usando un Script
+
+#### 1. Clonar el repositorio
 
 Primero, debe clonar el repositorio en su máquina local:
 
 ```bash
 git clone https://github.com/JesusFerru/winforms-invoicing-challenge
 ```
+Situarse en la raíz del repositorio 
+#### 2. Ejecutar el Script en PowerShell
+Para facilitar la ejecución automática tanto de la API de Facturación como de la aplicación Windows Forms, 
+se incluyó un script de PowerShell en la raíz del proyecto llamado `invoiceproject.ps1` .
 
-### 2. Configurar y ejecutar la API de Facturación
+Este script se encargará de ejecutar ambos servicios en el orden correcto, eliminando la necesidad de hacerlo manualmente.
+
+Para ejecutarlo seguir estos pasos
+
+a) Abrir PowerShell en la carpeta raíz del proyecto clonado (donde está el archivo invoiceproject.ps1).
+
+b) Ejecutar el siguiente comando para iniciar la API y la aplicación de Windows Forms:
+
+```powershell
+powershell -ExecutionPolicy Bypass -File .\invoiceproject.ps1
+```
+
+Este comando asegura que tanto la API como la aplicación se ejecuten correctamente y que se cierren cuando finalices el uso de la aplicación Windows Forms.
+
+
+---
+### OPCION B : Ejecutar manualmente el proyecto
+
+#### 1. Clonar el repositorio
+
+Primero, debe clonar el repositorio en su máquina local:
+
+```bash
+git clone https://github.com/JesusFerru/winforms-invoicing-challenge
+```
+Situarse en la raíz del repositorio
+
+#### 2. Configurar y ejecutar la API de Facturación
 
 El servicio de facturación está escrito en **C#** utilizando **.NET 8**, **ASP.NET Core**, **Entity Framework Core** y **SQLite**. A continuación, se indican los pasos para ejecutar la API localmente:
 
@@ -59,7 +95,7 @@ dotnet run --project InvoiceServiceMock --urls=http://localhost:5050/
 Este comando iniciará el servicio de la API en la URL http://localhost:5050/, donde estará escuchando para recibir solicitudes. 
 Es importante dejar el servicio corriendo en segundo plano mientras se ejecuta la aplicación de escritorio.
 
-### 3. Ejecutar la aplicación **Windows Forms**
+#### 3. Ejecutar la aplicación **Windows Forms**
 
 Con la API de facturación ejecutándose, puede iniciar la aplicación **Windows Forms** desde **Visual Studio**. Siga los siguientes pasos:
 
