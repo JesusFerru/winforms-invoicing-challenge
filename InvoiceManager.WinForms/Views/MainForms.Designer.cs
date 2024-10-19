@@ -31,16 +31,9 @@
             components = new System.ComponentModel.Container();
             DataGridViewCellStyle dataGridViewCellStyle1 = new DataGridViewCellStyle();
             DataGridViewCellStyle dataGridViewCellStyle3 = new DataGridViewCellStyle();
-            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(initForm));
+            DataGridViewCellStyle dataGridViewCellStyle2 = new DataGridViewCellStyle();
             dataGridView1 = new DataGridView();
-            NroFactura = new DataGridViewTextBoxColumn();
-            CUF = new DataGridViewTextBoxColumn();
-            nit = new DataGridViewTextBoxColumn();
-            customerName = new DataGridViewTextBoxColumn();
-            totalAmount = new DataGridViewTextBoxColumn();
-            Status = new DataGridViewTextBoxColumn();
-            createdAt = new DataGridViewTextBoxColumn();
             contextMenuStrip2 = new ContextMenuStrip(components);
             copiarToolStripMenuItem = new ToolStripMenuItem();
             pegarToolStripMenuItem = new ToolStripMenuItem();
@@ -48,6 +41,13 @@
             companyLogo = new PictureBox();
             btnRegisterInvoice = new Button();
             btnGetInvoices = new Button();
+            NroFactura = new DataGridViewTextBoxColumn();
+            CUF = new DataGridViewTextBoxColumn();
+            nit = new DataGridViewTextBoxColumn();
+            customerName = new DataGridViewTextBoxColumn();
+            totalAmount = new DataGridViewTextBoxColumn();
+            createdAt = new DataGridViewTextBoxColumn();
+            Status = new DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             contextMenuStrip2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)companyLogo).BeginInit();
@@ -64,7 +64,7 @@
             dataGridViewCellStyle1.WrapMode = DataGridViewTriState.True;
             dataGridView1.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NroFactura, CUF, nit, customerName, totalAmount, Status, createdAt });
+            dataGridView1.Columns.AddRange(new DataGridViewColumn[] { NroFactura, CUF, nit, customerName, totalAmount, createdAt, Status });
             dataGridView1.ContextMenuStrip = contextMenuStrip2;
             dataGridView1.Cursor = Cursors.Hand;
             dataGridView1.Location = new Point(28, 100);
@@ -81,6 +81,69 @@
             dataGridView1.Size = new Size(744, 267);
             dataGridView1.TabIndex = 0;
             dataGridView1.CellClick += dataGridView1_CellClick;
+            // 
+            // contextMenuStrip2
+            // 
+            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { copiarToolStripMenuItem, pegarToolStripMenuItem });
+            contextMenuStrip2.Name = "contextMenuStrip2";
+            contextMenuStrip2.Size = new Size(110, 48);
+            // 
+            // copiarToolStripMenuItem
+            // 
+            copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
+            copiarToolStripMenuItem.Size = new Size(109, 22);
+            copiarToolStripMenuItem.Text = "Copiar";
+            // 
+            // pegarToolStripMenuItem
+            // 
+            pegarToolStripMenuItem.Name = "pegarToolStripMenuItem";
+            pegarToolStripMenuItem.Size = new Size(109, 22);
+            pegarToolStripMenuItem.Text = "Pegar";
+            // 
+            // invoiceTitle
+            // 
+            invoiceTitle.AutoSize = true;
+            invoiceTitle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            invoiceTitle.Location = new Point(28, 27);
+            invoiceTitle.Name = "invoiceTitle";
+            invoiceTitle.Size = new Size(216, 30);
+            invoiceTitle.TabIndex = 1;
+            invoiceTitle.Text = "Registro de Facturas ";
+            // 
+            // companyLogo
+            // 
+            companyLogo.Image = (Image)resources.GetObject("companyLogo.Image");
+            companyLogo.Location = new Point(685, 1);
+            companyLogo.Name = "companyLogo";
+            companyLogo.Size = new Size(110, 83);
+            companyLogo.SizeMode = PictureBoxSizeMode.StretchImage;
+            companyLogo.TabIndex = 2;
+            companyLogo.TabStop = false;
+            // 
+            // btnRegisterInvoice
+            // 
+            btnRegisterInvoice.Cursor = Cursors.Hand;
+            btnRegisterInvoice.FlatAppearance.MouseDownBackColor = Color.LightGray;
+            btnRegisterInvoice.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
+            btnRegisterInvoice.FlatStyle = FlatStyle.Flat;
+            btnRegisterInvoice.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
+            btnRegisterInvoice.Location = new Point(653, 407);
+            btnRegisterInvoice.Name = "btnRegisterInvoice";
+            btnRegisterInvoice.Size = new Size(119, 50);
+            btnRegisterInvoice.TabIndex = 3;
+            btnRegisterInvoice.Text = "Nueva Factura";
+            btnRegisterInvoice.UseVisualStyleBackColor = true;
+            btnRegisterInvoice.Click += btnRegisterInvoice_Click;
+            // 
+            // btnGetInvoices
+            // 
+            btnGetInvoices.Location = new Point(28, 407);
+            btnGetInvoices.Name = "btnGetInvoices";
+            btnGetInvoices.Size = new Size(119, 50);
+            btnGetInvoices.TabIndex = 4;
+            btnGetInvoices.Text = "Consultar Facturas";
+            btnGetInvoices.UseVisualStyleBackColor = true;
+            btnGetInvoices.Click += btnGetInvoices_Click;
             // 
             // NroFactura
             // 
@@ -119,13 +182,6 @@
             totalAmount.Name = "totalAmount";
             totalAmount.ReadOnly = true;
             // 
-            // Status
-            // 
-            Status.DataPropertyName = "Status";
-            Status.HeaderText = "Estado Actual";
-            Status.Name = "Status";
-            Status.ReadOnly = true;
-            // 
             // createdAt
             // 
             createdAt.DataPropertyName = "CreatedAt";
@@ -133,69 +189,12 @@
             createdAt.Name = "createdAt";
             createdAt.ReadOnly = true;
             // 
-            // contextMenuStrip2
+            // Status
             // 
-            contextMenuStrip2.Items.AddRange(new ToolStripItem[] { copiarToolStripMenuItem, pegarToolStripMenuItem });
-            contextMenuStrip2.Name = "contextMenuStrip2";
-            contextMenuStrip2.Size = new Size(110, 48);
-            // 
-            // copiarToolStripMenuItem
-            // 
-            copiarToolStripMenuItem.Name = "copiarToolStripMenuItem";
-            copiarToolStripMenuItem.Size = new Size(109, 22);
-            copiarToolStripMenuItem.Text = "Copiar";
-            // 
-            // pegarToolStripMenuItem
-            // 
-            pegarToolStripMenuItem.Name = "pegarToolStripMenuItem";
-            pegarToolStripMenuItem.Size = new Size(109, 22);
-            pegarToolStripMenuItem.Text = "Pegar";
-            // 
-            // invoiceTitle
-            // 
-            invoiceTitle.AutoSize = true;
-            invoiceTitle.Font = new Font("Segoe UI", 15.75F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            invoiceTitle.Location = new Point(28, 27);
-            invoiceTitle.Name = "invoiceTitle";
-            invoiceTitle.Size = new Size(216, 30);
-            invoiceTitle.TabIndex = 1;
-            invoiceTitle.Text = "Registro de Facturas ";
-            invoiceTitle.Click += invoiceTitle_Click;
-            // 
-            // companyLogo
-            // 
-            companyLogo.Image = (Image)resources.GetObject("companyLogo.Image");
-            companyLogo.Location = new Point(685, 1);
-            companyLogo.Name = "companyLogo";
-            companyLogo.Size = new Size(110, 83);
-            companyLogo.SizeMode = PictureBoxSizeMode.StretchImage;
-            companyLogo.TabIndex = 2;
-            companyLogo.TabStop = false;
-            // 
-            // btnRegisterInvoice
-            // 
-            btnRegisterInvoice.Cursor = Cursors.Hand;
-            btnRegisterInvoice.FlatAppearance.MouseDownBackColor = Color.LightGray;
-            btnRegisterInvoice.FlatAppearance.MouseOverBackColor = Color.CornflowerBlue;
-            btnRegisterInvoice.FlatStyle = FlatStyle.Flat;
-            btnRegisterInvoice.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point, 0);
-            btnRegisterInvoice.Location = new Point(653, 407);
-            btnRegisterInvoice.Name = "btnRegisterInvoice";
-            btnRegisterInvoice.Size = new Size(119, 50);
-            btnRegisterInvoice.TabIndex = 3;
-            btnRegisterInvoice.Text = "Nueva Factura";
-            btnRegisterInvoice.UseVisualStyleBackColor = true;
-            btnRegisterInvoice.Click += btnRegisterInvoice_Click;
-            // 
-            // btnGetInvoices
-            // 
-            btnGetInvoices.Location = new Point(28, 407);
-            btnGetInvoices.Name = "btnGetInvoices";
-            btnGetInvoices.Size = new Size(119, 50);
-            btnGetInvoices.TabIndex = 4;
-            btnGetInvoices.Text = "Consultar Facturas";
-            btnGetInvoices.UseVisualStyleBackColor = true;
-            btnGetInvoices.Click += btnGetInvoices_Click;
+            Status.DataPropertyName = "Status";
+            Status.HeaderText = "Estado Actual";
+            Status.Name = "Status";
+            Status.ReadOnly = true;
             // 
             // initForm
             // 
@@ -224,15 +223,15 @@
         private PictureBox companyLogo;
         private Button btnRegisterInvoice;
         private Button btnGetInvoices;
+        private ContextMenuStrip contextMenuStrip2;
+        private ToolStripMenuItem copiarToolStripMenuItem;
+        private ToolStripMenuItem pegarToolStripMenuItem;
         private DataGridViewTextBoxColumn NroFactura;
         private DataGridViewTextBoxColumn CUF;
         private DataGridViewTextBoxColumn nit;
         private DataGridViewTextBoxColumn customerName;
         private DataGridViewTextBoxColumn totalAmount;
-        private DataGridViewTextBoxColumn Status;
         private DataGridViewTextBoxColumn createdAt;
-        private ContextMenuStrip contextMenuStrip2;
-        private ToolStripMenuItem copiarToolStripMenuItem;
-        private ToolStripMenuItem pegarToolStripMenuItem;
+        private DataGridViewTextBoxColumn Status;
     }
 }

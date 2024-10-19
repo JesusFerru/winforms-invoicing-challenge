@@ -7,17 +7,12 @@ namespace InvoiceManager.WinForms
     {
         private readonly ApiService apiService;
         private string selectedCUF;
+        private int selectedNroFactura;
 
         public initForm()
         {
             InitializeComponent();
             apiService = new ApiService();
-        }
-
-
-        private void invoiceTitle_Click(object sender, EventArgs e)
-        {
-
         }
 
         private async void btnGetInvoices_Click(object sender, EventArgs e)
@@ -32,7 +27,17 @@ namespace InvoiceManager.WinForms
             {
                 // Asigna el número de factura en la columna NroFactura (en orden descendente)
                 dataGridView1.Rows[i].Cells["NroFactura"].Value = totalFacturas - i;
+
+                var status = dataGridView1.Rows[i].Cells["Status"].Value;
+
+                if (status != null && int.TryParse(status.ToString(), out int statusValue))
+                {
+                    // Si el estado es 0, muestra "Pendiente"; si es 1, muestra "Aceptado"
+                    dataGridView1.Rows[i].Cells["Status"].Value = statusValue == 0 ? "Pendiente" : "Aceptado";
+                }
+
             }
+
         }
 
         private void btnRegisterInvoice_Click(object sender, EventArgs e)
@@ -62,11 +67,12 @@ namespace InvoiceManager.WinForms
             {
                 // Obtener el CUF de la fila seleccionada
                 selectedCUF = dataGridView1.Rows[e.RowIndex].Cells["CUF"].Value.ToString();
+                selectedNroFactura = (int)dataGridView1.Rows[e.RowIndex].Cells["NroFactura"].Value;
 
-                MessageBox.Show($"CUF seleccionado: {selectedCUF}");
+                MessageBox.Show($"Id seleccionado: {selectedNroFactura}");
 
                 // Abre el formulario para descargar la factura
-                DownloadInvoiceForm downloadForm = new DownloadInvoiceForm(selectedCUF); // Pasa el CUF al formulario
+                DownloadInvoiceForm downloadForm = new DownloadInvoiceForm(selectedNroFactura, selectedCUF); // Pasa el CUF al formulario
                 downloadForm.Show();
             }
             else

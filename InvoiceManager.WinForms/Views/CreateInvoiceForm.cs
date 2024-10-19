@@ -1,59 +1,96 @@
 ﻿using InvoiceManager.WinForms.Helpers;
 using InvoiceManager.WinForms.Models.Dtos;
 using InvoiceManager.WinForms.Services;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace InvoiceManager.WinForms.Views
 {
     public partial class CreateInvoiceForm : Form
     {
         private readonly ApiService apiService;
+        private bool isCancellationConfirmed = false;
+
         public CreateInvoiceForm()
         {
             InitializeComponent();
             apiService = new ApiService();
+
+            txtNit.KeyDown += HandleEnterKeyPress;
+            txtCustomerName.KeyDown += HandleEnterKeyPress;
+            dataGridView1.KeyDown += HandleEnterKeyPress;
+            cbProduct.KeyDown += HandleEnterKeyPress;
+            numQuantity.KeyDown += HandleEnterKeyPress;
+            txtUnitPrice.KeyDown += HandleEnterKeyPress;
+            btnSaveInvoice.KeyDown += HandleEnterKeyPress;
+            btnAddItemInvoice.KeyDown += btnAddItemInvoice_KeyDown;
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.CreateInvoiceForm_FormClosing);
+
         }
-
-        private void CreateInvoiceForm_Load(object sender, EventArgs e)
+        private void HandleEnterKeyPress(object sender, KeyEventArgs e)
         {
-
-        }
-
-        private void textBox3_TextChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label6_Click(object sender, EventArgs e)
-        {
-
+            // Si el usuario presiona Enter
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;  // Evita el sonido 'ding'
+                                            // Enfoca el siguiente control en el orden del tab
+                SelectNextControl((Control)sender, true, true, true, true);
+            }
         }
 
         private void btnAddItemInvoice_Click(object sender, EventArgs e)
         {
-            if (string.IsNullOrEmpty(cbProduct.Text) || string.IsNullOrEmpty(txtUnitPrice.Text) || numQuantity.Value == 0)
+            if (string.IsNullOrEmpty(cbProduct.Text))
             {
-                MessageBox.Show("Todos los campos de producto deben estar completos.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Debe seleccionar un producto.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                cbProduct.Focus();
                 return;
             }
 
-            //Mostrar lista de Productos
+            // Validar que el campo de cantidad (numQuantity) sea mayor que 0
+            if (numQuantity.Value == 0)
+            {
+                MessageBox.Show("La cantidad debe ser mayor que 0.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                numQuantity.Focus();
+                return;
+            }
+
+            if (!Validations.IsValidQuantity(numQuantity.Value))
+            {
+                MessageBox.Show("Ingrese un valor entero para la cantidad del producto", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                numQuantity.Focus();
+                return;
+            }
+
+            // Validar que el precio unitario (txtUnitPrice) sea un número decimal válido y mayor que 0
+            if (!Validations.IsValidUnitPrice(txtUnitPrice.Text))
+            {
+                MessageBox.Show("El precio unitario debe ser un número válido mayor que 0.", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                txtUnitPrice.Focus();
+                return;
+            }
+
+            // Si todas las validaciones pasan, añadir el producto a la grilla
             dataGridView1.Rows.Add(
                 dataGridView1.Rows.Count + 1, //Id
-                cbProduct.Text, numQuantity.Value,  //cantidad 
-                txtUnitPrice.Text, //precio unidad
-                (numQuantity.Value * decimal.Parse(txtUnitPrice.Text)));    //subtotal
+                cbProduct.Text,               // Producto seleccionado
+                numQuantity.Value,            // Cantidad
+                txtUnitPrice.Text,            // Precio por unidad
+                (numQuantity.Value * decimal.Parse(txtUnitPrice.Text))  // Subtotal
+            );
 
-            // Actualizar el total general
+            // Actualizar el total de la factura
             UpdateTotalAmount();
+
+            // Enfocar de nuevo en el ComboBox para continuar añadiendo productos
+            cbProduct.Focus();
+        }
+
+        private void btnAddItemInvoice_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                e.SuppressKeyPress = true;
+                cbProduct.Focus();
+            }
         }
 
         private void UpdateTotalAmount()
@@ -74,12 +111,17 @@ namespace InvoiceManager.WinForms.Views
                 return;
             }
 
-            // Recopilar los ítems desde el DataGridView
+            if (!Validations.IsValidLineItems(dataGridView1))
+            {
+                MessageBox.Show("Debe haber al menos un ítem de factura válido (descripción, cantidad y precio deben estar completos y correctos).", "Error de validación", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Agregar los ítems desde el DataGridView
             var lineItems = new List<CreateInvoiceLineItemDto>();
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-
-                if (row.Cells["Description"].Value != null && row.Cells["Quantity"].Value != null && row.Cells["UnitPrice"].Value != null)
+                if (Validations.IsValidInvoiceLineItem(row))
                 {
                     var lineItem = new CreateInvoiceLineItemDto
                     {
@@ -112,6 +154,41 @@ namespace InvoiceManager.WinForms.Views
             else
             {
                 MessageBox.Show("Error al crear la factura.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnCancelInvoice_Click(object sender, EventArgs e)
+        {
+            var result = MessageBox.Show(
+                "¿Desea cancelar el registro de la factura?",
+                "Cancelar Registro",
+                MessageBoxButtons.OKCancel,
+                MessageBoxIcon.Warning
+            );
+
+            if (result == DialogResult.OK)
+            {
+                isCancellationConfirmed = true;
+                this.DialogResult = DialogResult.Cancel;
+                this.Close();
+            }
+        }
+
+        private void CreateInvoiceForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            if (!isCancellationConfirmed)
+            {
+                var result = MessageBox.Show(
+                    "¿Desea cancelar el registro de la factura?",
+                    "Confirmar cancelación",
+                    MessageBoxButtons.OKCancel,
+                    MessageBoxIcon.Warning
+                );
+
+                if (result != DialogResult.OK)
+                {
+                    e.Cancel = true; // Cancelar el cierre si el usuario selecciona "Cancelar"
+                }
             }
         }
     }

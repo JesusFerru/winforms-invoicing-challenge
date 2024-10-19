@@ -97,11 +97,10 @@
             // 
             // txtUnitPrice
             // 
-            txtUnitPrice.Location = new Point(327, 124);
+            txtUnitPrice.Location = new Point(480, 123);
             txtUnitPrice.Name = "txtUnitPrice";
             txtUnitPrice.Size = new Size(86, 21);
             txtUnitPrice.TabIndex = 4;
-            txtUnitPrice.TextChanged += textBox3_TextChanged;
             // 
             // cbProduct
             // 
@@ -109,12 +108,12 @@
             cbProduct.Location = new Point(80, 122);
             cbProduct.Name = "cbProduct";
             cbProduct.Size = new Size(143, 23);
-            cbProduct.TabIndex = 8;
+            cbProduct.TabIndex = 2;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(237, 130);
+            label4.Location = new Point(390, 129);
             label4.Name = "label4";
             label4.Size = new Size(84, 15);
             label4.TabIndex = 9;
@@ -123,7 +122,7 @@
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(431, 130);
+            label5.Location = new Point(245, 130);
             label5.Name = "label5";
             label5.Size = new Size(59, 15);
             label5.TabIndex = 10;
@@ -131,10 +130,10 @@
             // 
             // numQuantity
             // 
-            numQuantity.Location = new Point(496, 126);
+            numQuantity.Location = new Point(310, 123);
             numQuantity.Name = "numQuantity";
             numQuantity.Size = new Size(56, 21);
-            numQuantity.TabIndex = 11;
+            numQuantity.TabIndex = 3;
             // 
             // dataGridView1
             // 
@@ -189,13 +188,14 @@
             // 
             // btnAddItemInvoice
             // 
-            btnAddItemInvoice.Location = new Point(589, 111);
+            btnAddItemInvoice.Location = new Point(600, 110);
             btnAddItemInvoice.Name = "btnAddItemInvoice";
             btnAddItemInvoice.Size = new Size(93, 47);
-            btnAddItemInvoice.TabIndex = 14;
+            btnAddItemInvoice.TabIndex = 5;
             btnAddItemInvoice.Text = "Añadir Producto";
             btnAddItemInvoice.UseVisualStyleBackColor = true;
             btnAddItemInvoice.Click += btnAddItemInvoice_Click;
+            btnAddItemInvoice.KeyDown += btnAddItemInvoice_KeyDown;
             // 
             // labelTotalAmount
             // 
@@ -220,17 +220,19 @@
             // 
             // btnCancelInvoice
             // 
+            btnCancelInvoice.BackColor = Color.Gainsboro;
             btnCancelInvoice.Cursor = Cursors.Hand;
             btnCancelInvoice.FlatAppearance.MouseDownBackColor = SystemColors.ActiveBorder;
             btnCancelInvoice.FlatAppearance.MouseOverBackColor = Color.IndianRed;
             btnCancelInvoice.FlatStyle = FlatStyle.Flat;
             btnCancelInvoice.Font = new Font("Segoe UI", 12.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            btnCancelInvoice.Location = new Point(157, 372);
+            btnCancelInvoice.Location = new Point(149, 372);
             btnCancelInvoice.Name = "btnCancelInvoice";
             btnCancelInvoice.Size = new Size(103, 32);
             btnCancelInvoice.TabIndex = 17;
             btnCancelInvoice.Text = "Cancelar";
-            btnCancelInvoice.UseVisualStyleBackColor = true;
+            btnCancelInvoice.UseVisualStyleBackColor = false;
+            btnCancelInvoice.Click += btnCancelInvoice_Click;
             // 
             // labelTitle
             // 
@@ -270,7 +272,6 @@
             MinimizeBox = false;
             Name = "CreateInvoiceForm";
             Text = "Nueva Factura";
-            Load += CreateInvoiceForm_Load;
             ((System.ComponentModel.ISupportInitialize)numQuantity).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);

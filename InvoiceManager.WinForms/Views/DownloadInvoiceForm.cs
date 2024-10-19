@@ -5,12 +5,14 @@ namespace InvoiceManager.WinForms
 {
     public partial class DownloadInvoiceForm : Form
     {
+        private int idInvoice;
         private string cuf;
         private readonly ApiService apiService;
         private readonly PdfService pdfService;
-        public DownloadInvoiceForm(string selectedCUF)
+        public DownloadInvoiceForm(int selectedNroFactura, string selectedCUF)
         {
             InitializeComponent();
+            idInvoice = selectedNroFactura;
             cuf = selectedCUF;
             apiService = new ApiService();
             pdfService = new PdfService();
@@ -25,7 +27,7 @@ namespace InvoiceManager.WinForms
             {
                 txtShowInvoice.Clear();
 
-                AppendFormattedText($"Factura # {invoice.Id}\n", FontStyle.Bold, 14);
+                AppendFormattedText($"Factura # {idInvoice}\n", FontStyle.Bold, 14);
                 AppendFormattedText($"Empresa ABC COMPANY\n\n\n\n", FontStyle.Bold, 10);
                 AppendFormattedText($"NIT: {invoice.NIT}\n", FontStyle.Regular, 10);
                 AppendFormattedText($"Cliente: {invoice.CustomerName}\n", FontStyle.Regular, 10);
