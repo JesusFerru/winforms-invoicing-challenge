@@ -17,25 +17,41 @@ namespace InvoiceManager.WinForms
 
         private async void btnGetInvoices_Click(object sender, EventArgs e)
         {
-            var facturas = await apiService.GetInvoicesAsync();
-
-            // Asigna la lista de facturas al DataGridView
-            dataGridView1.DataSource = facturas;
-
-            int totalFacturas = facturas.Count;
-            for (int i = 0; i < facturas.Count; i++)
+            try
             {
-                // Asigna el número de factura en la columna NroFactura (en orden descendente)
-                dataGridView1.Rows[i].Cells["NroFactura"].Value = totalFacturas - i;
+                var facturas = await apiService.GetInvoicesAsync();
 
-                var status = dataGridView1.Rows[i].Cells["Status"].Value;
-
-                if (status != null && int.TryParse(status.ToString(), out int statusValue))
+                if (facturas == null || facturas.Count == 0)
                 {
-                    // Si el estado es 0, muestra "Pendiente"; si es 1, muestra "Aceptado"
-                    dataGridView1.Rows[i].Cells["Status"].Value = statusValue == 0 ? "Pendiente" : "Aceptado";
+                    MessageBox.Show("No se encontraron facturas en la base de datos.", "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
                 }
 
+                dataGridView1.DataSource = facturas;
+
+                int totalFacturas = facturas.Count;
+                for (int i = 0; i < facturas.Count; i++)
+                {
+                    // Asigna el número de factura en la columna NroFactura (en orden descendente)
+                    dataGridView1.Rows[i].Cells["NroFactura"].Value = totalFacturas - i;
+
+                    var status = dataGridView1.Rows[i].Cells["Status"].Value;
+
+                    if (status != null && int.TryParse(status.ToString(), out int statusValue))
+                    {
+                        // Si el estado es 0, muestra "Pendiente"; si es 1, muestra "Aceptado"
+                        dataGridView1.Rows[i].Cells["Status"].Value = statusValue == 0 ? "Pendiente" : "Aceptado";
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Mostrar un mensaje de error si no se puede conectar con la API
+                MessageBox.Show("Error al conectar con la API. Asegúrese de que el backend esté en ejecución.", "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -45,12 +61,6 @@ namespace InvoiceManager.WinForms
             using (var createInvoiceForm = new CreateInvoiceForm())
             {
                 var dialogResult = createInvoiceForm.ShowDialog();
-
-               
-                if (dialogResult == DialogResult.OK)
-                {
- 
-                }
             }
         }
 

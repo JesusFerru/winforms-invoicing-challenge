@@ -169,6 +169,6 @@ A continuación, se propone algunas sugerencias para mejorar el sistema en futur
 ## Conclusión
 
 Este documento proporciona una guía detallada para ejecutar el proyecto de manera correcta y probar sus funcionalidades. 
-Si surge alguna duda o inconveniente durante la instalación o ejecución del sistema, no dude en contactarnos para brindar el soporte necesario.
+Si surge alguna duda o inconveniente durante la instalación o ejecución del sistema, no dude en dejar su pregunta para ser resuelta de la mejor manera posible.
 
 Agradezco su evaluación de este proyecto.

@@ -142,18 +142,33 @@ namespace InvoiceManager.WinForms.Views
             };
 
             // Llamar al servicio API para guardar la factura
-            var result = await apiService.CreateInvoiceAsync(createInvoiceDto);
-            if (result)
+            try
             {
-                MessageBox.Show("Factura creada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                this.DialogResult = DialogResult.OK;
+                // Llamar al servicio API para guardar la factura
+                var result = await apiService.CreateInvoiceAsync(createInvoiceDto);
+                if (result)
+                {
+                    MessageBox.Show("Factura creada exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    this.DialogResult = DialogResult.OK;
+                    isCancellationConfirmed = true;
 
-                // Cierra el formulario para volver al MainForms
-                this.Close();
+                    // Cierra el formulario para volver al MainForms
+                    this.Close();
+                }
+                else
+                {
+                    MessageBox.Show("Error al crear la factura. Revise su conexión con la base de datos.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
             }
-            else
+            catch (HttpRequestException ex)
             {
-                MessageBox.Show("Error al crear la factura.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                // Mostrar un mensaje de error si no se puede conectar con la API
+                MessageBox.Show("Error al conectar con la API. Asegúrese de que el backend esté en ejecución.", "Error de Conexión", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (Exception ex)
+            {
+                // Mostrar un mensaje de error genérico
+                MessageBox.Show("Ocurrió un error inesperado: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
