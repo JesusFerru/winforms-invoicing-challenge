@@ -1,4 +1,5 @@
 ﻿using InvoiceManager.WinForms.Models;
+using InvoiceManager.WinForms.Models.Dtos;
 using Newtonsoft.Json;
 using System.Text;
 
@@ -24,9 +25,9 @@ namespace InvoiceManager.WinForms.Services
             return new List<Invoice>();
         }
 
-        public async Task<bool> CreateInvoiceAsync(Invoice invoice)
+        public async Task<bool> CreateInvoiceAsync(CreateInvoiceDto createInvoiceDto)
         {
-            var jsonContent = new StringContent(JsonConvert.SerializeObject(invoice), Encoding.UTF8, "application/json");
+            var jsonContent = new StringContent(JsonConvert.SerializeObject(createInvoiceDto), Encoding.UTF8, "application/json");
             var response = await client.PostAsync("/api/invoices", jsonContent);
 
             return response.IsSuccessStatusCode;

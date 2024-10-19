@@ -1,10 +1,12 @@
 using InvoiceManager.WinForms.Services;
+using InvoiceManager.WinForms.Views;
 
 namespace InvoiceManager.WinForms
 {
     public partial class initForm : Form
     {
         private readonly ApiService apiService;
+        private string selectedCUF;
 
         public initForm()
         {
@@ -12,7 +14,7 @@ namespace InvoiceManager.WinForms
             apiService = new ApiService();
         }
 
-        
+
         private void invoiceTitle_Click(object sender, EventArgs e)
         {
 
@@ -24,16 +26,55 @@ namespace InvoiceManager.WinForms
 
             // Asigna la lista de facturas al DataGridView
             dataGridView1.DataSource = facturas;
+
+            int totalFacturas = facturas.Count;
+            for (int i = 0; i < facturas.Count; i++)
+            {
+                // Asigna el número de factura en la columna NroFactura (en orden descendente)
+                dataGridView1.Rows[i].Cells["NroFactura"].Value = totalFacturas - i;
+            }
         }
 
-        private void btnSaveInvoice_Click(object sender, EventArgs e)
+        private void btnRegisterInvoice_Click(object sender, EventArgs e)
         {
+            using (var createInvoiceForm = new CreateInvoiceForm())
+            {
+                var dialogResult = createInvoiceForm.ShowDialog();
 
+               
+                if (dialogResult == DialogResult.OK)
+                {
+ 
+                }
+            }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+            //if (e.RowIndex >= 0) // no sea el header
+            //{
+            //    selectedCUF = dataGridView1.Rows[e.RowIndex].Cells["CUF"].Value.ToString();
+         
+            //    MessageBox.Show($"CUF seleccionado: {selectedCUF}");
 
+            //    // Abre el formulario para descargar la factura
+            //    DownloadInvoiceForm downloadForm = new DownloadInvoiceForm(selectedCUF); // Pasa el CUF al formulario
+            //    downloadForm.Show();
+            //}
         }
+
+        private void copiarToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dataGridView1.CurrentCell != null && dataGridView1.Columns[dataGridView1.CurrentCell.ColumnIndex].Name == "CUF")
+            {
+                // Obtener el valor de la celda seleccionada
+                string valorCelda = dataGridView1.CurrentCell.Value.ToString();
+
+                // Copiar el valor al portapapeles
+                Clipboard.SetText(valorCelda);
+                MessageBox.Show("CUF copiado al portapapeles: " + valorCelda);
+            }
+        }
+
     }
 }
